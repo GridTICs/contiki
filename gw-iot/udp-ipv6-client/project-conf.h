@@ -1,0 +1,3 @@
+
+
+#define RESOLV_CONF_SUPPORTS_MDNS        0
