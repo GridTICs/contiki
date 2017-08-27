@@ -48,7 +48,8 @@
 #define DEBUG DEBUG_PRINT
 #include "net/ip/uip-debug.h"
 
-#define SEND_INTERVAL		15 * CLOCK_SECOND
+//GW-IOT intervalo en segundos de entre envío de datos
+#define SEND_INTERVAL		(15 * CLOCK_SECOND)
 #define MAX_PAYLOAD_LEN		40
 
 static struct uip_udp_conn *client_conn;
@@ -79,11 +80,8 @@ timeout_handler(void)
   if(adxl346_present != ADXL346_ERROR)
   {
     accelx = adxl346.value(ADXL346_READ_X_mG);
-    // printf("X Acceleration: %d.%u G\n", accelx / 1000, accelx % 1000);
     accely = adxl346.value(ADXL346_READ_Y_mG);
-    // printf("Y Acceleration: %d.%u G\n", accely / 1000, accely % 1000);
     accelz = adxl346.value(ADXL346_READ_Z_mG);
-    // printf("Z Acceleration: %d.%u G\n", accelz / 1000, accelz % 1000);
   }
   else
   {
@@ -94,7 +92,6 @@ timeout_handler(void)
   if(max44009_present != MAX44009_ERROR)
   {
     light = max44009.value(MAX44009_READ_LIGHT);
-    // printf("Light: \%u\n", light);
   }
   else
   {
@@ -105,9 +102,7 @@ timeout_handler(void)
   if(sht21_present != SHT21_ERROR)
   {
     temperature = sht21.value(SHT21_READ_TEMP);
-    // printf("Temperature: %u.%uC\n", temperature / 100, temperature % 100);
     humidity = sht21.value(SHT21_READ_RHUM);
-    // printf("Rel. humidity: %u.%u%%\n", humidity / 100, humidity % 100);
 
   }
   else
