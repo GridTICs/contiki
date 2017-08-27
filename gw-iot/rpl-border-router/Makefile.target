@@ -1,1 +1,2 @@
 TARGET = openmote-cc2538
+BOARD_REVISION = REV_A1
