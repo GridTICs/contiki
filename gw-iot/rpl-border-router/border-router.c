@@ -78,8 +78,12 @@ AUTOSTART_PROCESSES(&border_router_process,&webserver_nogui_process);
 /* The internal webserver can provide additional information if
  * enough program flash is available.
  */
-#define WEBSERVER_CONF_LOADTIME 0
+
+// GW-IoT Tiemp de demora en cargar pag web
+#define WEBSERVER_CONF_LOADTIME 1
 #define WEBSERVER_CONF_FILESTATS 0
+
+// GW-IoT Ayuda saber el estado de los vecinos
 #define WEBSERVER_CONF_NEIGHBOR_STATUS 1
 /* Adding links requires a larger RAM buffer. To avoid static allocation
  * the stack can be used for formatting; however tcp retransmissions
@@ -331,7 +335,7 @@ PT_THREAD(generate_routes(struct httpd_state *s))
 
 #if WEBSERVER_CONF_LOADTIME
   numticks = clock_time() - numticks + 1;
-  ADD(" <i>(%u.%02u sec)</i>",numticks/CLOCK_SECOND,(100*(numticks%CLOCK_SECOND))/CLOCK_SECOND));
+  ADD(" <i>(%lu.%02lu sec)</i>",numticks/CLOCK_SECOND,((100*(numticks%CLOCK_SECOND))/CLOCK_SECOND));
 #endif
 
   SEND_STRING(&s->sout, buf);
