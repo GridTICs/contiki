@@ -75,7 +75,7 @@ static uint16_t adxl346_present, max44009_present, sht21_present;
 static void
 timeout_handler(void)
 {
-  static int seq_id;
+  static uint16_t seq_id;
 
   if(adxl346_present != ADXL346_ERROR)
   {
@@ -113,16 +113,22 @@ timeout_handler(void)
 
   printf("Client sending to: ");
   PRINT6ADDR(&client_conn->ripaddr);
-  sprintf(buf, "Hello %d", ++seq_id);
-
-  sprintf(buf, 
-     "X: %d.%u, Y: %d.%u, Z: %d.%u, L: \%u, T: %u.%u, hum: %u.%u",
-     accelx / 1000, accelx % 1000,
-     accely / 1000, accely % 1000,
-     accelz / 1000, accelz % 1000,
-     light,
-     temperature / 100, temperature % 100,
-     humidity / 100, humidity % 100);
+  if ( seq_id == 0 )
+  {
+    sprintf(buf, "%d, X, Y, Z, Light, Temp (°C), humidity (%%)", seq_id++);
+  }
+  else
+  {
+    sprintf(buf,
+       "%d, %d.%u, %d.%u, %d.%u, %u, %u.%u, %u.%u",
+       seq_id++,
+       accelx / 1000, accelx % 1000,
+       accely / 1000, accely % 1000,
+       accelz / 1000, accelz % 1000,
+       light,
+       temperature / 100, temperature % 100,
+       humidity / 100, humidity % 100);
+  }
   printf(" (msg: %s)\n", buf);
 #if SEND_TOO_LARGE_PACKET_TO_TEST_FRAGMENTATION
   uip_udp_packet_send(client_conn, buf, UIP_APPDATA_SIZE);
