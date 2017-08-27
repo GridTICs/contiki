@@ -171,15 +171,14 @@ set_connection_address(uip_ipaddr_t *ipaddr)
 {
 #ifndef UDP_CONNECTION_ADDR
 #if RESOLV_CONF_SUPPORTS_MDNS
-#warning soportando MDNS
+#warning GW-IoT Usando MDNS
 #define UDP_CONNECTION_ADDR       contiki-udp-server.local
 #elif UIP_CONF_ROUTER
-#warning router
- // #define UDP_CONNECTION_ADDR       fd00:0:0:0:0212:7404:0004:0404
-#define UDP_CONNECTION_ADDR       fdb7:da99:8748:9289:7a24:afff:fe43:32cb
+#warning GW-IoT comunicando via routeo en dirección hardcodeada valor SRVROUTEDADDR en project-conf.h
+#define UDP_CONNECTION_ADDR      SRVROUTEDADDR
 #else
-#error no
-#define UDP_CONNECTION_ADDR       fe80:0:0:0:6466:6666:6666:6666
+#warning GW-IoT comunicando a red local dirección hardcodeada SRVLOCALADDR
+#define UDP_CONNECTION_ADDR       SRVLOCALADDR
 #endif
 #endif /* !UDP_CONNECTION_ADDR */
 
